@@ -1,28 +1,8 @@
 use warp::{http, Filter};
-use std::collections::{VecDeque};
-use serde::{Serialize, Deserialize};
-use std::sync::Arc;
-use parking_lot::RwLock;
+mod structs;
+type Datum = structs::Datum;
+type Store = structs::Store;
 
-#[derive(Debug, Deserialize, Serialize, Clone)]
-struct Datum {
-    name: String,
-    quantity: i32,
-}
-
-type Data = VecDeque<Datum>;
-
-#[derive(Clone)]
-struct Store {
-    data: Arc<RwLock<Data>>
-}
-impl Store {
-    fn new() -> Self {
-        Store {
-            data: Arc::new(RwLock::new(VecDeque::new()))
-        }
-    }
-}
 
 async fn save_wifi_datum(
     datum: Datum,
@@ -35,11 +15,9 @@ async fn save_wifi_datum(
     ))
 }
 
-
 fn json_body() -> impl Filter<Extract = (Datum,), Error = warp::Rejection> + Clone {
     warp::body::content_length_limit(1024 * 16).and(warp::body::json())
 }
-
 
 
 #[tokio::main]
