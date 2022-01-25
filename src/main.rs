@@ -1,11 +1,9 @@
 use warp::{Filter};
 use crate::controllers::sensors::get_all_sensors;
-use crate::structs::{Sensor, Sensors};
+use crate::structs::{Sensor, Sensors, Store};
 
 mod structs;
 mod controllers;
-
-type Store = structs::Store;
 
 
 #[tokio::main]
