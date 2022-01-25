@@ -12,6 +12,13 @@ pub struct Datum {
 
 type Data = VecDeque<Datum>;
 
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct Position {
+    x: i32,
+    y: i32,
+    z: i32
+}
+
 #[derive(Clone)]
 pub struct Store {
     pub data: Arc<RwLock<Data>>
