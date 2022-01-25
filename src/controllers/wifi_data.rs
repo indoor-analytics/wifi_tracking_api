@@ -1,5 +1,6 @@
 use warp::http;
 use crate::structs::{Datum, Store};
+use warp::{Filter};
 
 pub async fn save_wifi_datum(
     datum: Datum,
@@ -10,4 +11,8 @@ pub async fn save_wifi_datum(
         "Received",
         http::StatusCode::OK,
     ))
+}
+
+pub fn json_body() -> impl Filter<Extract = (Datum,), Error = warp::Rejection> + Clone {
+    warp::body::content_length_limit(1024 * 16).and(warp::body::json())
 }

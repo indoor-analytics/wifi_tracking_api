@@ -5,18 +5,7 @@ use crate::structs::{Sensor, Sensors};
 mod structs;
 mod controllers;
 
-type Datum = structs::Datum;
 type Store = structs::Store;
-
-
-
-fn json_body() -> impl Filter<Extract = (Datum,), Error = warp::Rejection> + Clone {
-    warp::body::content_length_limit(1024 * 16).and(warp::body::json())
-}
-
-fn sensor_json_body() -> impl Filter<Extract = (Sensor,), Error = warp::Rejection> + Clone {
-    warp::body::content_length_limit(1024 * 16).and(warp::body::json())
-}
 
 
 #[tokio::main]
@@ -34,7 +23,7 @@ async fn main() {
         .and(warp::path("v1"))
         .and(warp::path("wifiData"))
         .and(warp::path::end())
-        .and(json_body())
+        .and(controllers::wifi_data::json_body())
         .and(store_filter.clone())
         .and_then(controllers::wifi_data::save_wifi_datum);
 
@@ -42,22 +31,23 @@ async fn main() {
         .and(warp::path("v1"))
         .and(warp::path("sensors"))
         .and(warp::path::end())
-        .and(sensor_json_body())
+        .and(controllers::sensors::json_body())
         .and(sensors_filter.clone())
         .and_then(controllers::sensors::create_sensor);
 
+        /*
     let get_sensors = warp::get()
         .and(warp::path("v1"))
         .and(warp::path("sensors"))
         .and(warp::path::end())
         .and(sensor_json_body())
-        .and_then(controllers::sensors::get_all_sensors);
+        .and_then(controllers::sensors::get_all_sensors);*/
 
 
     let routes = say_hello
         .or(add_data)
-        .or(create_sensor)
-        .or(get_sensors);
+        .or(create_sensor);
+        // .or(get_sensors);
 
     warp::serve(routes)
         .run(([127, 0, 0, 1], 3030))
