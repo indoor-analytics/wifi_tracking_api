@@ -1,4 +1,4 @@
-use warp::http;
+use warp::{http, Reply};
 use crate::{Sensor, Sensors};
 
 pub async fn create_sensor(
@@ -11,4 +11,12 @@ pub async fn create_sensor(
         "Ok",
         http::StatusCode::OK
     ))
+}
+
+pub async fn get_all_sensors(
+    sensors: Sensors
+) -> Result<impl warp::Reply, warp::Rejection> {
+    Ok(warp::reply::json(
+        sensors.sensors.read().keys()
+    ).into_response());
 }
