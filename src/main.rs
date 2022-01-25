@@ -1,4 +1,4 @@
-use warp::{http, Filter};
+use warp::{Filter};
 use crate::structs::{Sensor, Sensors};
 
 mod structs;
@@ -7,17 +7,6 @@ mod controllers;
 type Datum = structs::Datum;
 type Store = structs::Store;
 
-
-async fn save_wifi_datum(
-    datum: Datum,
-    store: Store
-) -> Result<impl warp::Reply, warp::Rejection> {
-    store.data.write().push_back(datum);
-    Ok(warp::reply::with_status(
-        "Received",
-        http::StatusCode::OK,
-    ))
-}
 
 
 fn json_body() -> impl Filter<Extract = (Datum,), Error = warp::Rejection> + Clone {
@@ -46,7 +35,7 @@ async fn main() {
         .and(warp::path::end())
         .and(json_body())
         .and(store_filter.clone())
-        .and_then(save_wifi_datum);
+        .and_then(controllers::wifi_data::save_wifi_datum);
 
     let create_sensor = warp::post()
         .and(warp::path("v1"))
