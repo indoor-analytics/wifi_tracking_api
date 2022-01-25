@@ -1,5 +1,6 @@
 use warp::{Filter};
-use crate::structs::{Sensor, Sensors, Store};
+use crate::structs::store::Store;
+use crate::structs::sensors::Sensors;
 
 mod structs;
 mod controllers;

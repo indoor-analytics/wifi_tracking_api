@@ -1,5 +1,6 @@
 use warp::http;
-use crate::structs::{Datum, Store};
+use crate::structs::store::Store;
+use crate::structs::data::Datum;
 use warp::{Filter};
 
 pub async fn save_wifi_datum(

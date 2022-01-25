@@ -1,6 +1,7 @@
 use warp::{http};
-use crate::{Sensor, Sensors};
 use warp::{Filter};
+use crate::structs::sensors::{Sensor, Sensors};
+
 
 pub async fn create_sensor(
     sensor: Sensor,
