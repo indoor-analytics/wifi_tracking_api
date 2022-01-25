@@ -19,6 +19,12 @@ pub struct Position {
     z: i32
 }
 
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct Sensor {
+    id: String,
+    pos: Position
+}
+
 #[derive(Clone)]
 pub struct Store {
     pub data: Arc<RwLock<Data>>
