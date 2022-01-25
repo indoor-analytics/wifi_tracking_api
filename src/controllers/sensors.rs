@@ -17,10 +17,8 @@ pub async fn create_sensor(
 pub async fn get_all_sensors(
     sensors: Sensors
 ) -> Result<impl warp::Reply, warp::Rejection> {
-    let sensorIds = vec![0, 1, 2]; //sensors.sensors.read().keys().clone();
-    Ok(warp::reply::json(
-        &sensorIds
-    ))
+    let sensors_ids: Vec<String> = sensors.sensors.read().keys().cloned().collect();
+    Ok(warp::reply::json( &sensors_ids ))
 }
 
 pub fn json_body() -> impl Filter<Extract = (Sensor,), Error = warp::Rejection> + Clone {
