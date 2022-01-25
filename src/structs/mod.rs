@@ -1,4 +1,4 @@
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 use serde::{Serialize, Deserialize};
 use std::sync::Arc;
 use parking_lot::RwLock;
@@ -21,7 +21,7 @@ pub struct Position {
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Sensor {
-    id: String,
+    pub id: String,
     pos: Position
 }
 
@@ -33,6 +33,18 @@ impl Store {
     pub fn new() -> Self {
         Store {
             data: Arc::new(RwLock::new(VecDeque::new()))
+        }
+    }
+}
+
+#[derive(Clone)]
+pub struct Sensors {
+    pub sensors: Arc<RwLock<HashMap<String, Sensor>>>
+}
+impl Sensors {
+    pub fn new() -> Self {
+        Sensors {
+            sensors: Arc::new(RwLock::new(HashMap::new()))
         }
     }
 }
