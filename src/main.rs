@@ -54,7 +54,7 @@ async fn main() {
         .and(warp::path::end())
         .and(sensor_json_body())
         .and(sensors_filter.clone())
-        .and_then(controllers::create_sensor);
+        .and_then(controllers::sensors::create_sensor);
 
     let routes = say_hello
         .or(add_data)
