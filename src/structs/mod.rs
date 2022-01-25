@@ -14,9 +14,9 @@ type Data = VecDeque<Datum>;
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Position {
-    x: i32,
-    y: i32,
-    z: i32
+    x: f32,
+    y: f32,
+    z: f32
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
