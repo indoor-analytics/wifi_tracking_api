@@ -4,7 +4,9 @@ use std::collections::VecDeque;
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Datum {
     name: String,
-    quantity: i32,
+    sender_mac: String,
+    receiver_mac: String,
+    rssi: i32
 }
 
 pub type Data = VecDeque<Datum>;
