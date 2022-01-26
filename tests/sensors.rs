@@ -37,4 +37,29 @@ mod sensors_tests {
             .data().await.unwrap().unwrap();
         assert_eq!(sensors_bytes, "[\"test_sensor\"]");
     }
+
+    #[tokio::test]
+    async fn create_same_sensor_several_times() {
+        let sensors = Sensors::new();
+        let test_sensor = Sensor {
+            id: "test_sensor".to_string(),
+            pos: Position {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0
+            }
+        };
+
+        let result = create_sensor(test_sensor.clone(), sensors.clone()).await;
+        assert_eq!(result.unwrap().into_response().status(), 200);
+        let result = create_sensor(test_sensor.clone(), sensors.clone()).await;
+        assert_eq!(result.unwrap().into_response().status(), 200);
+        let result = create_sensor(test_sensor.clone(), sensors.clone()).await;
+        assert_eq!(result.unwrap().into_response().status(), 200);
+
+        let sensors_bytes = get_all_sensors(sensors).await.unwrap()
+            .into_response().into_body()
+            .data().await.unwrap().unwrap();
+        assert_eq!(sensors_bytes, "[\"test_sensor\"]");
+    }
 }
