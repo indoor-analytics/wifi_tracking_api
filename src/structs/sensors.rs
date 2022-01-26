@@ -7,7 +7,7 @@ use parking_lot::RwLock;
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Sensor {
     pub id: String,
-    pos: Position
+    pub pos: Position
 }
 
 #[derive(Clone)]
