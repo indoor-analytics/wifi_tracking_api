@@ -40,11 +40,20 @@ async fn main() {
         .and(sensors_filter.clone())
         .and_then(controllers::sensors::get_all_sensors);
 
+    let get_sensors_info = warp::get()
+        .and(warp::path("v1"))
+        .and(warp::path("sensors"))
+        .and(warp::path!("all"))
+        .and(warp::path::end())
+        .and(sensors_filter.clone())
+        .and_then(controllers::sensors::get_all_sensors_full_info);
+
 
     let routes = say_hello
         .or(add_data)
         .or(create_sensor)
-        .or(get_sensors);
+        .or(get_sensors)
+        .or(get_sensors_info);
 
     warp::serve(routes)
         .run(([127, 0, 0, 1], 3030))
