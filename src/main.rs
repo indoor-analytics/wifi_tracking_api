@@ -17,6 +17,13 @@ async fn main() {
     let say_hello = warp::path!("hello" / String)
         .map(|name| format!("Hello, {}!", name));
 
+    let get_sensor_position_route = warp::get()
+        .and(warp::path("v1"))
+        .and(warp::path("sensors"))
+        .and(sensors_filter.clone())
+        .and(warp::path::param())
+        .and_then(controllers::sensors::get_sensor_position);
+
     let add_data = warp::post()
         .and(warp::path("v1"))
         .and(warp::path("wifiData"))
@@ -53,7 +60,8 @@ async fn main() {
         .or(add_data)
         .or(create_sensor)
         .or(get_sensors)
-        .or(get_sensors_info);
+        .or(get_sensors_info)
+        .or(get_sensor_position_route);
 
     warp::serve(routes)
         .run(([127, 0, 0, 1], 3030))
