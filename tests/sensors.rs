@@ -51,7 +51,7 @@ mod sensors_tests {
         };
 
         let result = create_sensor(test_sensor.clone(), sensors.clone()).await;
-        assert_eq!(result.unwrap().into_response().status(), 200);
+        assert_eq!(result.unwrap().into_response().status(), 201);
         let result = create_sensor(test_sensor.clone(), sensors.clone()).await;
         assert_eq!(result.unwrap().into_response().status(), 200);
         let result = create_sensor(test_sensor.clone(), sensors.clone()).await;
