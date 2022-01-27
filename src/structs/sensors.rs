@@ -20,4 +20,8 @@ impl Sensors {
             sensors: Arc::new(RwLock::new(HashMap::new()))
         }
     }
+
+    pub fn has_sensor(&self, id: &str) -> bool {
+        self.sensors.read().contains_key(id)
+    }
 }
