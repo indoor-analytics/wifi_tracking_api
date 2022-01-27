@@ -83,6 +83,7 @@ mod sensors_tests {
         let position_bytes = get_sensor_position(sensors, test_sensor.id).await
             .unwrap().into_response().into_body().data().await
             .unwrap().unwrap();
-        assert_eq!(position.to_string(), position_bytes);
+        let retr_pos: Position = serde_json::from_str(&*String::from_utf8(position_bytes.to_vec()).unwrap()).unwrap();
+        assert_eq!(position, retr_pos);
     }
 }
