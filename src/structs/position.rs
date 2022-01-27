@@ -10,9 +10,9 @@ pub struct Position {
 
 impl fmt::Display for Position {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
-        fmt.write_str(&*("{\"x\": ".to_owned() + &*self.x.to_string() + ", ")).ok();
-        fmt.write_str(&*("\"y\": ".to_owned() + &*self.y.to_string() + ", ")).ok();
-        fmt.write_str(&*("\"z\": ".to_owned() + &*self.z.to_string() + "}")).ok();
+        fmt.write_str(&*("{\"x\":".to_owned() + &*self.x.to_string() + ",")).ok();
+        fmt.write_str(&*("\"y\":".to_owned() + &*self.y.to_string() + ",")).ok();
+        fmt.write_str(&*("\"z\":".to_owned() + &*self.z.to_string() + "}")).ok();
         Ok(())
     }
 }
