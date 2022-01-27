@@ -2,7 +2,7 @@
 mod sensors_tests {
     use warp::hyper::body::HttpBody;
     use wifi_tracking_api::structs::sensors::{Sensor, Sensors};
-    use wifi_tracking_api::controllers::sensors::{create_sensor, get_all_sensors};
+    use wifi_tracking_api::controllers::sensors::{create_sensor, get_all_sensors, get_sensor_position};
     use warp::reply::Reply;
     use wifi_tracking_api::structs::position::Position;
 
@@ -61,5 +61,28 @@ mod sensors_tests {
             .into_response().into_body()
             .data().await.unwrap().unwrap();
         assert_eq!(sensors_bytes, "[\"test_sensor\"]");
+    }
+
+    #[tokio::test]
+    async fn get_sensor_location() {
+        let position = Position {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0
+        };
+
+        // creating sensor
+        let sensors = Sensors::new();
+        let test_sensor = Sensor {
+            id: "test_sensor".to_string(),
+            pos: position.clone()
+        };
+        create_sensor(test_sensor.clone(), sensors.clone()).await;
+
+        // getting sensor position
+        let position_bytes = get_sensor_position(sensors, test_sensor.id).await
+            .unwrap().into_response().into_body().data().await
+            .unwrap().unwrap();
+        assert_eq!(position.to_string(), position_bytes);
     }
 }
