@@ -30,7 +30,7 @@ mod sensors_tests {
         };
 
         let result = create_sensor(test_sensor, sensors.clone()).await;
-        assert_eq!(result.unwrap().into_response().status(), 200);
+        assert_eq!(result.unwrap().into_response().status(), 201);
 
         let sensors_bytes = get_all_sensors(sensors).await.unwrap()
             .into_response().into_body()
