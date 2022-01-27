@@ -26,6 +26,13 @@ pub async fn get_all_sensors(
     Ok(warp::reply::json( &sensors_ids ))
 }
 
+pub async fn get_all_sensors_full_info(
+    sensors: Sensors
+) -> Result<impl warp::Reply, warp::Rejection> {
+    let sensors_info: Vec<Sensor> = sensors.sensors.read().values().cloned().collect();
+    Ok(warp::reply::json( &sensors_info ))
+}
+
 pub fn json_body() -> impl Filter<Extract = (Sensor,), Error = warp::Rejection> + Clone {
     warp::body::content_length_limit(1024 * 16).and(warp::body::json())
 }
