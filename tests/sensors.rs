@@ -77,7 +77,7 @@ mod sensors_tests {
             id: "test_sensor".to_string(),
             pos: position.clone()
         };
-        create_sensor(test_sensor.clone(), sensors.clone()).await;
+        create_sensor(test_sensor.clone(), sensors.clone()).await.ok();
 
         // getting sensor position
         let position_bytes = get_sensor_position(sensors, test_sensor.id).await
