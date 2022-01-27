@@ -66,9 +66,9 @@ mod sensors_tests {
     #[tokio::test]
     async fn get_sensor_location() {
         let position = Position {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0
+            x: 1.23,
+            y: 4.56,
+            z: 7.89
         };
 
         // creating sensor
