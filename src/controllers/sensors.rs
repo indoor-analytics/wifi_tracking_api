@@ -33,6 +33,15 @@ pub async fn get_all_sensors_full_info(
     Ok(warp::reply::json( &sensors_info ))
 }
 
+pub async fn get_sensor_position(
+    sensors: Sensors,
+    sensor_id: String
+) -> Result<impl warp::Reply, warp::Rejection> {
+    let sensors_map = sensors.sensors.read();
+    let sensor: &Sensor = sensors_map.get(&sensor_id).unwrap();
+    Ok(warp::reply::json(&sensor.pos))
+}
+
 pub fn json_body() -> impl Filter<Extract = (Sensor,), Error = warp::Rejection> + Clone {
     warp::body::content_length_limit(1024 * 16).and(warp::body::json())
 }
