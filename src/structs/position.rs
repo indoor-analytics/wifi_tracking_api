@@ -16,3 +16,9 @@ impl fmt::Display for Position {
         Ok(())
     }
 }
+
+impl PartialEq for Position {
+    fn eq(&self, other: &Position) -> bool {
+        self.x == other.x && self.y == other.y && self.z == other.z
+    }
+}
