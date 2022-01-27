@@ -8,10 +8,14 @@ pub async fn create_sensor(
     sensors: Sensors
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let c = sensor.clone();
+    let exists = sensors.has_sensor(&sensor.id);
     sensors.sensors.write().insert(sensor.id, c);
     Ok(warp::reply::with_status(
         "Ok",
-        http::StatusCode::OK
+        match exists {
+            true => { http::StatusCode::OK }
+            false => { http::StatusCode::CREATED }
+        }
     ))
 }
 
