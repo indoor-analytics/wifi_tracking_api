@@ -14,4 +14,13 @@ impl Store {
             data: Arc::new(RwLock::new(VecDeque::new()))
         }
     }
+
+    pub fn get_device_data(
+        &self,
+        device_id: String
+    ) -> Data {
+        let mut data = self.data.read().clone();
+        data.retain(|datum| datum.sender_mac == device_id);
+        data
+    }
 }
