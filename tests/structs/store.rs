@@ -50,4 +50,35 @@ mod store_tests {
         assert!(data.contains(&datum2));
         assert!(data.contains(&datum3));
     }
+
+    #[tokio::test]
+    async fn get_non_existent_device_data() {
+        let store = Store::new();
+        let device_id = "04-26-24-44-F3-B0".to_string();
+
+        save_wifi_datum(Datum {
+            sensor_id: "59-2A-7F-97-E1-B9".to_string(),
+            sender_mac: "9A-DC-2E-6E-FD-43".to_string(),
+            receiver_mac: "07-43-A5-AB-2D-1A".to_string(),
+            rssi: -42,
+            timestamp: 1643382243511
+        }, store.clone()).await.ok();
+        save_wifi_datum(Datum {
+            sensor_id: "48-18-74-4E-4D-84".to_string(),
+            sender_mac: "1E-67-1C-1C-21-A9".to_string(),
+            receiver_mac: "07-43-A5-AB-2D-1A".to_string(),
+            rssi: -40,
+            timestamp: 1643382244269
+        }, store.clone()).await.ok();
+        save_wifi_datum(Datum {
+            sensor_id: "59-2A-7F-97-E1-B9".to_string(),
+            sender_mac: "B8-5A-D5-24-42-18".to_string(),
+            receiver_mac: "07-43-A5-AB-2D-1A".to_string(),
+            rssi: -65,
+            timestamp: 1643382345511
+        }, store.clone()).await.ok();
+
+        let data = store.get_device_data(device_id);
+        assert_eq!(data.len(), 0);
+    }
 }
