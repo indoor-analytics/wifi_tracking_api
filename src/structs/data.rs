@@ -10,4 +10,14 @@ pub struct Datum {
     pub timestamp: u64
 }
 
+impl PartialEq for Datum {
+    fn eq(&self, other: &Datum) -> bool {
+        self.sensor_id == other.sensor_id && self.sender_mac == other.sender_mac
+            && self.receiver_mac == other.receiver_mac
+            && self.rssi == other.rssi && self.timestamp == other.timestamp
+        // self.x == other.x && self.y == other.y && self.z == other.z
+    }
+}
+
+
 pub type Data = VecDeque<Datum>;
