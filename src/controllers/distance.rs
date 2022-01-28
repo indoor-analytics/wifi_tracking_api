@@ -1,4 +1,3 @@
-use std::fmt::format;
 use warp::hyper::StatusCode;
 use warp::reply::with_status;
 use crate::structs::sensors::Sensors;
