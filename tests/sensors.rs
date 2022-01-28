@@ -86,4 +86,12 @@ mod sensors_tests {
         let retr_pos: Position = serde_json::from_str(&*String::from_utf8(position_bytes.to_vec()).unwrap()).unwrap();
         assert_eq!(position, retr_pos);
     }
+
+    #[tokio::test]
+    async fn get_non_existent_sensor_location() {
+        let sensors = Sensors::new();
+        let response = get_sensor_position(sensors, "this_is_not_a_sensor".to_string()).await;
+        assert_eq!(response.is_ok(), true);
+        assert_eq!(response.unwrap().into_response().status(), 404);
+    }
 }
