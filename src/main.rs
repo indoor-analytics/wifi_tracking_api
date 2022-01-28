@@ -22,6 +22,7 @@ async fn main() {
         .and(warp::path("sensors"))
         .and(sensors_filter.clone())
         .and(warp::path::param())
+        .and(warp::path("position"))
         .and_then(controllers::sensors::get_sensor_position);
 
     let add_data = warp::post()
