@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Datum {
-    name: String,
+    sensor_id: String,
     sender_mac: String,
     receiver_mac: String,
     rssi: i8,
