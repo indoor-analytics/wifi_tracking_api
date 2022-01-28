@@ -1,5 +1,7 @@
-use warp::{http};
+use warp::{http, Reply};
 use warp::{Filter};
+use warp::http::StatusCode;
+use warp::reply::with_status;
 use crate::structs::sensors::{Sensor, Sensors};
 
 
@@ -38,8 +40,10 @@ pub async fn get_sensor_position(
     sensor_id: String
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let sensors_map = sensors.sensors.read();
-    let sensor: &Sensor = sensors_map.get(&sensor_id).unwrap();
-    Ok(warp::reply::json(&sensor.pos))
+    return match sensors_map.get(&sensor_id) {
+        Some(sensor) => Ok(warp::reply::json(&sensor.pos).into_response()),
+        None => Ok(with_status("", StatusCode::NOT_FOUND).into_response())
+    }
 }
 
 pub fn json_body() -> impl Filter<Extract = (Sensor,), Error = warp::Rejection> + Clone {
