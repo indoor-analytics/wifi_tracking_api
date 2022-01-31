@@ -64,7 +64,7 @@ async fn main() {
         .and(controllers::wifi_data::json_body())
         .and(store_filter.clone())
         .and_then(controllers::wifi_data::save_wifi_datum);
-    
+
     let routes = warp::path("v1").and(
         sensors_routes.or(
             add_data.or(
@@ -72,20 +72,6 @@ async fn main() {
             )
         )
     );
-/*
-
-    let say_hello = warp::path!("hello" / String)
-        .map(|name| format!("Hello, {}!", name));*/
-
-
-        /*
-    let routes = say_hello
-        .or(add_data)
-        .or(create_sensor)
-        .or(get_sensors)
-        .or(get_sensors_info)
-        .or(get_sensor_position_route)
-        .or(get_device_position_route);*/
 
     warp::serve(routes)
         .run(([127, 0, 0, 1], 3030))
