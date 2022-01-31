@@ -3,6 +3,7 @@ use warp::Reply;
 use warp::reply::with_status;
 use crate::structs::sensors::Sensors;
 use crate::structs::store::Store;
+use itertools::Itertools;
 
 pub async fn get_device_pos(
     sensors: Sensors,
@@ -30,5 +31,13 @@ pub async fn get_device_pos(
                 .into_response()
         );
     }
+
+
+    // keeping last packet received per each sensor
+    let unique_sensors_ids: Vec<String> = device_data.clone().into_iter().map(|datum| datum.sensor_id).unique().collect();
+    let packets = unique_sensors_ids.iter().map(|sensor_id| device_data.iter().rfind(|datum| &datum.sensor_id == sensor_id));
+
+    // TODO compute position regarding RSSI for each packet
+
     Ok(StatusCode::NOT_IMPLEMENTED.into_response())
 }
