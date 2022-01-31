@@ -40,13 +40,10 @@ async fn main() {
         .and_then(controllers::sensors::get_sensor_position);
 
     let sensors_routes = warp::path("sensors").and(
-        get_sensors.or(
-            create_sensor
-        ).or(
-            get_sensors_info
-        ).or(
-            get_sensor_position_route
-        )
+        get_sensors
+            .or( create_sensor )
+            .or( get_sensors_info )
+            .or( get_sensor_position_route )
     );
 
     // GET /device
@@ -66,11 +63,9 @@ async fn main() {
         .and_then(controllers::wifi_data::save_wifi_datum);
 
     let routes = warp::path("v1").and(
-        sensors_routes.or(
-            add_data.or(
-                get_device_position_route
-            )
-        )
+        sensors_routes
+            .or( add_data )
+            .or( get_device_position_route )
     );
 
     warp::serve(routes)
